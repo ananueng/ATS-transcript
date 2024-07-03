@@ -4,6 +4,8 @@ data/input/transcript/*
 data/output/*
 !data/output/EXAMPLE_ATS_output_2024-07-03_12-48-40.tsv
 
+# Notes
+notes.txt
 
 # Python
 *.pyc
@@ -15,6 +17,11 @@ venv/
 venv3/
 .venv/
 .pytest_cache
+
+
+# Executables
+build
+__main__.spec
 
 # Text editors and IDEs
 *~
