@@ -1,6 +1,9 @@
 # Data
-data/input/transcripts/*
-!data/input/transcripts/
+data/input/transcript/*
+!data/input/transcript/.gitkeep
+data/output/*
+!data/output/EXAMPLE_ATS_output_2024-07-03_12-48-40.tsv
+
 
 # Python
 *.pyc

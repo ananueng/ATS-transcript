@@ -12,7 +12,7 @@ class ATSApp:
         self.root.title("ATS Tool")
         
         self.transcript_paths = []
-        self.default_input_path = os.path.join(os.getcwd(), "data", "input", "transcripts")
+        self.default_input_path = os.path.join(os.getcwd(), "data", "input", "transcript")
         self.default_output_path = os.path.join(os.getcwd(), "data", "output")
         self.default_config_file = os.path.join(os.getcwd(), "data", "input", "config.csv")
         
@@ -75,12 +75,10 @@ class ATSApp:
             messagebox.showerror("Error", "Invalid config file")
             return
 
-        # Create timestamped folder
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        self.output_folder = os.path.join(output_path, f"output_{timestamp}")
-
         # Set output file path
-        self.output_file = os.path.join(self.output_folder, "list.tsv")
+        self.output_folder = output_path
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        self.output_file = os.path.join(self.output_folder, f"ATS_output_{timestamp}.tsv")
 
         try:
             self.compile_transcripts()
@@ -91,7 +89,7 @@ class ATSApp:
             # Show success message
             messagebox.showinfo("Success", "PDFs processed successfully")
 
-            # Close the GUI window
+            # Close GUI
             self.root.destroy()
 
         except Exception as e:
@@ -101,22 +99,17 @@ class ATSApp:
         self.progress_bar["value"] = 0
         self.progress_label.config(text="Processing...")
 
-        # Read configuration file
-        config_df = self.read_config_file()
-        
         for filename in os.listdir(self.input_dir.get()):
             if filename.endswith(".pdf"):
                 self.transcript_paths.append(os.path.join(self.input_dir.get(), filename))
 
         self.pdf_count = len(self.transcript_paths)
         output_data = []
-        # Initialize output header to all of the classes to filter by 
-        # output_data.append([''] + config_df.index.tolist())
 
         # Read PDFs and update progress bar
         for transcript in self.transcript_paths:
             self.update_progress(self.num_processed_pdfs, self.pdf_count)
-            parser = PDF_Parser(transcript, config_df)
+            parser = PDF_Parser(transcript, self.config_file.get())
             output_data.append(parser.read_transcript())
         
         # Save to TSV file
@@ -128,15 +121,6 @@ class ATSApp:
         self.progress_bar["value"] = int((current / total) * 100)
         self.root.update_idletasks()
         self.num_processed_pdfs += 1
-
-    def read_config_file(self):
-        try:
-            df = pd.read_csv(self.config_file.get(), index_col=0)
-            print(df)
-            return df
-        except Exception as e:
-            messagebox.showerror("Error", f"Error reading config file: {str(e)}")
-            return []
 
 def run_gui():
     root = tk.Tk()
