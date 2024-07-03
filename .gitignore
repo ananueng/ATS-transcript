@@ -1,5 +1,6 @@
 # Data
 data/input/transcripts/*
+!data/input/transcripts/
 
 # Python
 *.pyc
