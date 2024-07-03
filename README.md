@@ -1,6 +1,6 @@
 ## About
 As a recruiter, it is tedious to manually read through transcripts to figure out whether a candidate has taken a particular class and how well they performed in the class. 
-This tool automatically parses a folder of University of Michigan transcripts and outputs their grade (if they took the course) in the course of interest, which is specified in a config file. 
+This tool automatically parses a folder with University of Michigan transcripts and highlights their grade (if they took the course) in the course of interest, which is specified in a config file. 
 
 
 ## Setup
